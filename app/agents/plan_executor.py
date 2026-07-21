@@ -8,14 +8,11 @@ from app.schemas.agent import (
     InvestigationPlan,
     PlanExecutionState,
 )
-
 from app.memory.working_memory import (
     add_execution_to_memory,
 )
 
-
 MAX_REPLANS = 3
-
 
 def execute_plan(
     plan: InvestigationPlan,

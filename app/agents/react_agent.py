@@ -1,12 +1,9 @@
 import json
-
 from app.llm.client import create_agent_response
 from app.schemas.agent import ToolCall
 from app.tools.executor import execute_tool_call
 
-
 MAX_STEPS = 5
-
 
 def run_react_agent(
     incident: str,

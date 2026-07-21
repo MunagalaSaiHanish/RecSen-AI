@@ -1,5 +1,4 @@
 import json
-
 from app.llm.client import create_agent_response
 from app.schemas.agent import (
     PlanStep,
@@ -7,7 +6,6 @@ from app.schemas.agent import (
     ToolCall,
 )
 from app.tools.executor import execute_tool_call
-
 
 def execute_plan_step(
     step: PlanStep,
