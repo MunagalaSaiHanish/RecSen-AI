@@ -1,26 +1,32 @@
-from app.agents.incident_agent import decide_next_action
-from app.tools.executor import execute_action
+from app.agents.runner import run_investigation
+
 
 def main():
     incident = """
-Payment API started returning HTTP 500 errors
-immediately after version 2.4.1 was deployed.
+The website is unexpectedly broken down and payments were not initializing caused payment failures
 """
+
     service = "payment-api"
-    decision = decide_next_action(incident)
 
-    print("Incident:")
-    print(incident)
-
-    print("Agent decision:")
-    print(f"Action: {decision.action.value}")
-    print(f"Reason: {decision.reason}")
-
-    observation = execute_action(
-        action=decision.action,
+    state = run_investigation(
+        incident=incident,
         service=service,
     )
-    print("\nObservation:")
-    print(observation)
+
+    print("Incident:")
+    print(state.incident)
+
+    print("\nInvestigation:")
+
+    for index, step in enumerate(state.steps, start=1):
+        print(f"\nStep {index}")
+        print(f"Action: {step.action.value}")
+        print(f"Reason: {step.reason}")
+        print(f"Observation: {step.observation}")
+
+    print("\nFinished:")
+    print(state.finished)
+
+
 if __name__ == "__main__":
     main()
