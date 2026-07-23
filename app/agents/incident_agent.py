@@ -1,40 +1,34 @@
+from app.llm.client import generate_agent_decision
 from app.schemas.agent import AgentDecision
 
 
-class IncidentAgent:
-    def __init__(self, model):
-        self.model = model
+def decide_next_action(incident: str) -> AgentDecision:
+    prompt = f"""
+You are an incident investigation agent.
 
-    def build_prompt(self, incident: str) -> str:
-        return f"""
-You are RECSEN AI, an incident investigation agent.
-
-Your goal is to investigate technical incidents using evidence.
+Your goal is to investigate production incidents and decide
+the most useful next action.
 
 Incident:
 {incident}
 
-Available actions:
-- QUERY_LOGS
-- QUERY_METRICS
-- CHECK_DEPLOYMENTS
-- FINISH
+Choose exactly one action:
 
-Rules:
-- Choose exactly one action.
-- Choose only from the available actions.
-- Do not claim a root cause without evidence.
+CHECK_LOGS
+CHECK_METRICS
+CHECK_DEPLOYMENTS
+FINISH
 
-Return a structured decision containing:
-- action
-- reason
+Return ONLY valid JSON in exactly this structure:
+
+{{
+    "action": "CHECK_LOGS",
+    "reason": "Brief explanation of why this is the best next action."
+}}
+
+Do not include markdown.
+Do not include code fences.
+Do not include text before or after the JSON.
 """
 
-    def decide(self, incident: str) -> AgentDecision:
-        prompt = self.build_prompt(incident)
-
-        response = self.model.invoke(prompt)
-
-        decision = AgentDecision.model_validate(response)
-
-        return decision
+    return generate_agent_decision(prompt)

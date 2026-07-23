@@ -4,10 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class AgentAction(str, Enum):
-    QUERY_LOGS = "QUERY_LOGS"
-    QUERY_METRICS = "QUERY_METRICS"
+    CHECK_LOGS = "CHECK_LOGS"
+    CHECK_METRICS = "CHECK_METRICS"
     CHECK_DEPLOYMENTS = "CHECK_DEPLOYMENTS"
     FINISH = "FINISH"
+
 
 class AgentDecision(BaseModel):
     action: AgentAction

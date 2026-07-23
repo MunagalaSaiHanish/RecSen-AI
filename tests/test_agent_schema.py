@@ -1,22 +1,22 @@
+import pytest
 from pydantic import ValidationError
 
-from app.schemas.agent import AgentDecision
+from app.schemas.agent import AgentAction, AgentDecision
 
 
-valid_decision = AgentDecision(
-    action="QUERY_METRICS",
-    reason="Metrics can reveal resource bottlenecks.",
-)
-
-print(valid_decision)
-print(valid_decision.action)
-print(valid_decision.reason)
-
-
-try:
-    invalid_decision = AgentDecision(
-        action="DELETE_DATABASE",
-        reason="Try deleting the database.",
+def test_valid_agent_decision():
+    decision = AgentDecision(
+        action=AgentAction.CHECK_LOGS,
+        reason="Logs may reveal the source of the HTTP 500 errors.",
     )
-except ValidationError as error:
-    print(error)
+
+    assert decision.action == AgentAction.CHECK_LOGS
+    assert decision.reason != ""
+
+
+def test_invalid_agent_action():
+    with pytest.raises(ValidationError):
+        AgentDecision(
+            action="FLY_TO_MARS",
+            reason="This action does not exist.",
+        )

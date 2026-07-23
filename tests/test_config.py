@@ -1,10 +1,9 @@
-from app.core.config import get_settings
+from app.core.config import settings
 
 
-settings = get_settings()
+def test_app_name():
+    assert settings.app_name == "RECSEN AI"
 
-print(settings.app_name)
-print(settings.app_env)
-print(settings.debug)
-print(settings.llm_model)
-print(settings.max_agent_iterations)
+
+def test_environment():
+    assert settings.app_env == "development"
