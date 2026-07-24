@@ -27,3 +27,7 @@ class InvestigationState(BaseModel):
     service: str
     steps: list[InvestigationStep] = Field(default_factory=list)
     finished: bool = False
+
+class ToolCall(BaseModel):
+    name: str = Field(min_length=1)
+    arguments: dict[str, Any]
