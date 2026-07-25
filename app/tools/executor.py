@@ -1,25 +1,19 @@
-from app.schemas.agent import AgentAction
-from app.tools.investigation import (
-    check_deployments,
-    query_logs,
-    query_metrics,
-)
+from typing import Any
+
+from app.schemas.agent import ToolCall
+from app.tools.registry import TOOL_REGISTRY
 
 
-def execute_action(action: AgentAction, service: str) -> dict:
-    if action == AgentAction.CHECK_LOGS:
-        return query_logs(service)
+def execute_tool_call(
+    tool_call: ToolCall,
+) -> dict[str, Any]:
+    tool = TOOL_REGISTRY.get(tool_call.name)
 
-    if action == AgentAction.CHECK_METRICS:
-        return query_metrics(service)
+    if tool is None:
+        raise ValueError(
+            f"Unknown tool: {tool_call.name}"
+        )
 
-    if action == AgentAction.CHECK_DEPLOYMENTS:
-        return check_deployments(service)
+    result = tool(**tool_call.arguments)
 
-    if action == AgentAction.FINISH:
-        return {
-            "service": service,
-            "message": "Investigation finished.",
-        }
-
-    raise ValueError(f"Unsupported action: {action}")
+    return result

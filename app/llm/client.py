@@ -3,6 +3,8 @@ from openai import OpenAI
 from pydantic import ValidationError
 from app.core.config import settings
 from app.schemas.agent import AgentDecision
+from app.schemas.agent import ToolCall
+from app.tools.definitions import INVESTIGATION_TOOLS
 
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
@@ -49,3 +51,30 @@ def generate_agent_decision(prompt: str) -> AgentDecision:
         raise ValueError(
             f"LLM returned invalid AgentDecision: {content}"
         ) from exc
+
+def generate_tool_call(
+    messages: list[dict],
+) -> ToolCall | None:
+    response = client.chat.completions.create(
+        model=settings.llm_model,
+        messages=messages,
+        tools=INVESTIGATION_TOOLS,
+        tool_choice="auto",
+        max_tokens=300,
+    )
+
+    message = response.choices[0].message
+
+    if not message.tool_calls:
+        return None
+
+    tool_call = message.tool_calls[0]
+
+    arguments = json.loads(
+        tool_call.function.arguments
+    )
+
+    return ToolCall(
+        name=tool_call.function.name,
+        arguments=arguments,
+    )
