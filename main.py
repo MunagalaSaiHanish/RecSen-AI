@@ -1,31 +1,26 @@
-from app.agents.runner import run_investigation
+from app.agents.react_agent import run_react_agent
 
 
 def main():
     incident = """
-The website is unexpectedly broken down and payments were not initializing caused payment failures
+Payment API started returning HTTP 500 errors
+immediately after version 2.4.1 was deployed.
 """
 
     service = "payment-api"
 
-    state = run_investigation(
+    conclusion = run_react_agent(
         incident=incident,
         service=service,
     )
 
     print("Incident:")
-    print(state.incident)
+    print(incident)
 
-    print("\nInvestigation:")
+    print("\nFinal investigation:")
+    print(conclusion)
 
-    for index, step in enumerate(state.steps, start=1):
-        print(f"\nStep {index}")
-        print(f"Action: {step.action.value}")
-        print(f"Reason: {step.reason}")
-        print(f"Observation: {step.observation}")
 
-    print("\nFinished:")
-    print(state.finished)
 
 
 if __name__ == "__main__":

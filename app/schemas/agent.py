@@ -29,5 +29,6 @@ class InvestigationState(BaseModel):
     finished: bool = False
 
 class ToolCall(BaseModel):
+    id: str = Field(min_length=1)
     name: str = Field(min_length=1)
     arguments: dict[str, Any]

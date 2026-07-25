@@ -75,6 +75,18 @@ def generate_tool_call(
     )
 
     return ToolCall(
-        name=tool_call.function.name,
-        arguments=arguments,
+    id=tool_call.id,
+    name=tool_call.function.name,
+    arguments=arguments,
+)
+
+def create_agent_response(
+    messages: list[dict],
+):
+    return client.chat.completions.create(
+        model=settings.llm_model,
+        messages=messages,
+        tools=INVESTIGATION_TOOLS,
+        tool_choice="auto",
+        max_tokens=500,
     )
