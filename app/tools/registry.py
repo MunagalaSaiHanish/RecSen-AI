@@ -1,5 +1,5 @@
-from collections.abc import Callable
-
+from app.schemas.tools import ServiceToolInput
+from app.tools.base import Tool
 from app.tools.investigation import (
     check_deployments,
     query_logs,
@@ -7,8 +7,29 @@ from app.tools.investigation import (
 )
 
 
-TOOL_REGISTRY: dict[str, Callable] = {
-    "query_logs": query_logs,
-    "query_metrics": query_metrics,
-    "check_deployments": check_deployments,
+TOOL_REGISTRY: dict[str, Tool] = {
+    "query_logs": Tool(
+        name="query_logs",
+        description=(
+            "Retrieve recent application error logs for a service."
+        ),
+        input_model=ServiceToolInput,
+        function=query_logs,
+    ),
+    "query_metrics": Tool(
+        name="query_metrics",
+        description=(
+            "Retrieve runtime metrics for a service."
+        ),
+        input_model=ServiceToolInput,
+        function=query_metrics,
+    ),
+    "check_deployments": Tool(
+        name="check_deployments",
+        description=(
+            "Retrieve recent deployment information for a service."
+        ),
+        input_model=ServiceToolInput,
+        function=check_deployments,
+    ),
 }

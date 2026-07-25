@@ -63,11 +63,15 @@ def run_react_agent(
 
             observation = execute_tool_call(tool_call)
 
+            print(f"\nTool call: {tool_call.name}")
+            print(f"Arguments: {tool_call.arguments}")
+            print(f"Observation: {observation.model_dump()}")
+
             messages.append(
                 {
                     "role": "tool",
                     "tool_call_id": tool_call.id,
-                    "content": json.dumps(observation),
+                    "content": observation.model_dump_json(),
                 }
             )
 
