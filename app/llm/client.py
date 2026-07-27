@@ -181,7 +181,7 @@ def generate_investigation_plan(
     ),
 },
         ],
-        max_tokens=700,
+        max_tokens=450,
     )
 
     content = response.choices[0].message.content
@@ -199,4 +199,76 @@ def generate_investigation_plan(
     except ValidationError as exc:
         raise ValueError(
             f"LLM returned an invalid investigation plan: {content}"
+        ) from exc
+
+def generate_revised_plan(
+    incident: str,
+    service: str,
+    replanning_context: str,
+    available_tools: list[dict],
+) -> InvestigationPlan:
+    tools_context = json.dumps(
+        available_tools,
+        indent=2,
+    )
+
+    response = client.chat.completions.create(
+        model=settings.llm_model,
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are the replanning component of RECSEN. "
+                    "Review the current investigation state and "
+                    "create a revised investigation plan. "
+                    "Use the observations and failures from completed "
+                    "steps when deciding what should happen next. "
+                    "Do not repeat completed work unless there is a "
+                    "clear reason to retry it. "
+                    "Only create steps that can be performed using "
+                    "the available tools. "
+                    "Return only valid JSON matching the requested "
+                    "plan structure."
+                ),
+            },
+            {
+                "role": "user",
+                "content": (
+                    f"Incident:\n{incident}\n\n"
+                    f"Service: {service}\n\n"
+                    f"Available tools:\n{tools_context}\n\n"
+                    "Current investigation context:\n"
+                    f"{replanning_context}\n\n"
+                    "Return JSON with this structure:\n"
+                    "{\n"
+                    '  "goal": "investigation goal",\n'
+                    '  "steps": [\n'
+                    "    {\n"
+                    '      "step_number": 1,\n'
+                    '      "description": "what to investigate next",\n'
+                    '      "expected_outcome": "what this should reveal"\n'
+                    "    }\n"
+                    "  ]\n"
+                    "}"
+                ),
+            },
+        ],
+        max_tokens=450,
+    )
+
+    content = response.choices[0].message.content
+
+    if content is None:
+        raise ValueError(
+            "LLM returned an empty revised plan."
+        )
+
+    try:
+        data = parse_json_response(content)
+
+        return InvestigationPlan.model_validate(data)
+
+    except ValidationError as exc:
+        raise ValueError(
+            f"LLM returned an invalid revised plan: {content}"
         ) from exc

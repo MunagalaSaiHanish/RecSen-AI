@@ -1,15 +1,17 @@
-from app.agents.planner import create_investigation_plan
+from app.context.builder import build_replanning_context
+from app.llm.client import generate_revised_plan
 from app.schemas.agent import (
     InvestigationPlan,
     PlanExecutionState,
 )
+from app.tools.registry import TOOL_REGISTRY
 
 
 def should_replan(
     state: PlanExecutionState,
 ) -> bool:
     if not state.completed_steps:
-        return False    
+        return False
 
     latest_execution = state.completed_steps[-1]
 
@@ -21,7 +23,21 @@ def replan_investigation(
     incident: str,
     service: str,
 ) -> InvestigationPlan:
-    return create_investigation_plan(
+    replanning_context = build_replanning_context(
+        state
+    )
+
+    available_tools = [
+        {
+            "name": tool.name,
+            "description": tool.description,
+        }
+        for tool in TOOL_REGISTRY.values()
+    ]
+
+    return generate_revised_plan(
         incident=incident,
         service=service,
+        replanning_context=replanning_context,
+        available_tools=available_tools,
     )
