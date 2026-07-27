@@ -32,3 +32,28 @@ class ToolCall(BaseModel):
     id: str = Field(min_length=1)
     name: str = Field(min_length=1)
     arguments: dict[str, Any]
+
+
+class PlanStep(BaseModel):
+    step_number: int = Field(gt=0)
+    description: str = Field(min_length=1)
+    expected_outcome: str = Field(min_length=1)
+
+
+class InvestigationPlan(BaseModel):
+    goal: str = Field(min_length=1)
+    steps: list[PlanStep] = Field(min_length=1)
+
+class StepExecution(BaseModel):
+    step: PlanStep
+    tool_name: str | None = None
+    observation: dict[str, Any] | None = None
+    success: bool = False
+
+
+class PlanExecutionState(BaseModel):
+    plan: InvestigationPlan
+    completed_steps: list[StepExecution] = Field(
+        default_factory=list
+    )
+

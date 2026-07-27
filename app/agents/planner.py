@@ -1,0 +1,22 @@
+from app.llm.client import generate_investigation_plan
+from app.schemas.agent import InvestigationPlan
+from app.tools.registry import TOOL_REGISTRY
+
+
+def create_investigation_plan(
+    incident: str,
+    service: str,
+) -> InvestigationPlan:
+    available_tools = [
+        {
+            "name": tool.name,
+            "description": tool.description,
+        }
+        for tool in TOOL_REGISTRY.values()
+    ]
+
+    return generate_investigation_plan(
+        incident=incident,
+        service=service,
+        available_tools=available_tools,
+    ) 
