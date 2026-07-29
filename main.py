@@ -57,5 +57,15 @@ immediately after version 2.4.1 was deployed.
         print("-" * 60)
 
 
+        print(
+    f"\nFinal agent status: "
+    f"{execution_state.status.value}"
+)
+
+        print(
+    f"Replans performed: "
+    f"{execution_state.replan_count}"
+)
+
 if __name__ == "__main__":
     main()

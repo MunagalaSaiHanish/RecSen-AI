@@ -50,10 +50,21 @@ class StepExecution(BaseModel):
     observation: dict[str, Any] | None = None
     success: bool = False
 
+class AgentStatus(str, Enum):
+    PLANNING = "planning"
+    EXECUTING = "executing"
+    EVALUATING = "evaluating"
+    REPLANNING = "replanning"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
 
 class PlanExecutionState(BaseModel):
     plan: InvestigationPlan
     completed_steps: list[StepExecution] = Field(
         default_factory=list
     )
+    status: AgentStatus = AgentStatus.PLANNING
+    current_step_index: int = 0
+    replan_count: int = 0
 

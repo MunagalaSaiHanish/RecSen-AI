@@ -4,9 +4,13 @@ from app.agents.replanner import (
     should_replan,
 )
 from app.schemas.agent import (
+    AgentStatus,
     InvestigationPlan,
     PlanExecutionState,
 )
+
+
+MAX_REPLANS = 3
 
 
 def execute_plan(
@@ -18,9 +22,22 @@ def execute_plan(
         plan=plan,
     )
 
-    current_plan = plan
+    state.status = AgentStatus.EXECUTING
 
-    for step in current_plan.steps:
+    while state.status not in {
+        AgentStatus.COMPLETED,
+        AgentStatus.FAILED,
+    }:
+        if state.current_step_index >= len(
+            state.plan.steps
+        ):
+            state.status = AgentStatus.COMPLETED
+            continue
+
+        step = state.plan.steps[
+            state.current_step_index
+        ]
+
         execution = execute_plan_step(
             step=step,
             service=service,
@@ -30,7 +47,15 @@ def execute_plan(
             execution
         )
 
+        state.status = AgentStatus.EVALUATING
+
         if should_replan(state):
+            if state.replan_count >= MAX_REPLANS:
+                state.status = AgentStatus.FAILED
+                continue
+
+            state.status = AgentStatus.REPLANNING
+
             new_plan = replan_investigation(
                 state=state,
                 incident=incident,
@@ -38,7 +63,13 @@ def execute_plan(
             )
 
             state.plan = new_plan
+            state.current_step_index = 0
+            state.replan_count += 1
+            state.status = AgentStatus.EXECUTING
 
-            break
+            continue
+
+        state.current_step_index += 1
+        state.status = AgentStatus.EXECUTING
 
     return state
