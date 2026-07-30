@@ -66,6 +66,16 @@ immediately after version 2.4.1 was deployed.
     f"Replans performed: "
     f"{execution_state.replan_count}"
 )
+        print("\nWorking memory:")
+
+    for entry in execution_state.working_memory.entries:
+        print(
+        f"- Source: {entry.source}"
+    )
+        print(
+        f"  Content: {entry.content}"
+    )
+
 
 if __name__ == "__main__":
     main()

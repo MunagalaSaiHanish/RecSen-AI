@@ -58,13 +58,30 @@ class AgentStatus(str, Enum):
     COMPLETED = "completed"
     FAILED = "failed"
 
+class MemoryEntry(BaseModel):
+    source: str
+    content: dict[str, Any]
+
+
+class WorkingMemory(BaseModel):
+    entries: list[MemoryEntry] = Field(
+        default_factory=list
+    )
 
 class PlanExecutionState(BaseModel):
     plan: InvestigationPlan
+
     completed_steps: list[StepExecution] = Field(
         default_factory=list
     )
+
+    working_memory: WorkingMemory = Field(
+        default_factory=WorkingMemory
+    )
+
     status: AgentStatus = AgentStatus.PLANNING
+
     current_step_index: int = 0
+
     replan_count: int = 0
 

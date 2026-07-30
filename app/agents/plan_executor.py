@@ -9,6 +9,10 @@ from app.schemas.agent import (
     PlanExecutionState,
 )
 
+from app.memory.working_memory import (
+    add_execution_to_memory,
+)
+
 
 MAX_REPLANS = 3
 
@@ -47,6 +51,10 @@ def execute_plan(
             execution
         )
 
+        add_execution_to_memory(
+    memory=state.working_memory,
+    execution=execution,
+)
         state.status = AgentStatus.EVALUATING
 
         if should_replan(state):
