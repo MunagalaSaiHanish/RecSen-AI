@@ -1,9 +1,9 @@
 from app.agents.plan_executor import execute_plan
 
-from app.memory.episodic_memory import create_episode
 
-from app.agents.planner import create_investigation_plan
-from app.memory.storage import save_episode
+from app.agents.planner import create_investigation_plan        
+from app.memory.episode_builder import build_episode
+from app.memory.repository import EpisodeRepository
 
 
 def main():
@@ -80,12 +80,16 @@ immediately after version 2.4.1 was deployed.
         f"  Content: {entry.content}"
     )
 
-    episode = create_episode(
+    episode = build_episode(
     incident=incident,
     execution_state=execution_state,
     )
 
-    save_episode(episode)
+    repository = EpisodeRepository()
+
+    repository.save(
+    episode
+)
 
 print("\nEpisode saved successfully.")    
 
