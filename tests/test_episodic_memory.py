@@ -1,20 +1,24 @@
-from app.memory.episodic_memory import create_episode
+from app.memory.episode_builder import build_episode
+
 from app.schemas.agent import (
+    Episode,
     InvestigationPlan,
+    InvestigationRecord,
     PlanExecutionState,
     PlanStep,
 )
 
 
-def test_create_episode():
+def test_build_episode():
+
     plan = InvestigationPlan(
-        goal="Investigate payment-api",
-        reasoning="Testing episode creation.",
+        goal="Investigate Payment API",
+        reasoning="Testing",
         steps=[
             PlanStep(
                 step_number=1,
-                description="Inspect logs",
-                expected_outcome="Find root cause",
+                description="Inspect Logs",
+                expected_outcome="Find issue",
             )
         ],
     )
@@ -23,10 +27,18 @@ def test_create_episode():
         plan=plan,
     )
 
-    episode = create_episode(
+    episode = build_episode(
         incident="payment-api",
         execution_state=state,
     )
 
-    assert episode.incident == "payment-api"
-    assert episode.completed_steps == []
+    assert isinstance(
+        episode,
+        Episode,
+    )
+
+    assert (
+        episode.investigation.incident
+        ==
+        "payment-api"
+    )

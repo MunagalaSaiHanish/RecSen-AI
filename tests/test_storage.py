@@ -1,12 +1,16 @@
 from app.memory.storage import (
-    load_episodes,
+    read_json,
+    write_json,
 )
 
 
-def test_load_returns_list():
-    episodes = load_episodes()
+def test_storage_round_trip():
+
+    write_json([])
+
+    data = read_json()
 
     assert isinstance(
-        episodes,
+        data,
         list,
     )
