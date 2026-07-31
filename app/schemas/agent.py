@@ -69,7 +69,9 @@ class WorkingMemory(BaseModel):
     )
 
 class EpisodeMetadata(BaseModel):
-    episode_id: str
+    episode_id: str = Field(
+        default_factory=lambda: str(uuid.uuid4())
+    )
     created_at: datetime = Field(
         default_factory=datetime.utcnow
     )
@@ -79,10 +81,10 @@ class EpisodeMetadata(BaseModel):
 class InvestigationRecord(BaseModel):
     incident: str
     goal: str
-    status: AgentStatus
-    replans: int
     plan: InvestigationPlan
     completed_steps: list[StepExecution]
+    status: AgentStatus
+    replans: int
 
 
 class EvidenceSnapshot(BaseModel):
@@ -93,9 +95,6 @@ class InvestigationOutcome(BaseModel):
     root_cause: str | None = None
     resolution: str | None = None
     confidence: float | None = None
-    lessons_learned: list[str] = Field(
-        default_factory=list
-    )
 
 
 class Episode(BaseModel):

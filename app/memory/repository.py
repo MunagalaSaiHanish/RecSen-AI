@@ -2,7 +2,9 @@ from app.memory.storage import (
     read_json,
     write_json,
 )
-from app.schemas.agent import Episode
+from app.schemas.agent import (
+    Episode,
+)
 
 class EpisodeRepository:
     def load_all(
@@ -11,9 +13,9 @@ class EpisodeRepository:
         raw = read_json()
         return [
             Episode(
-                **item
+                **episode
             )
-            for item in raw
+            for episode in raw
         ]
     def save(
         self,

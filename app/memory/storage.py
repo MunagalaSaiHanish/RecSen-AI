@@ -1,29 +1,26 @@
 import json
 from pathlib import Path
 
-DATA_DIR = Path("data")
+DATA_DIRECTORY = Path("data")
 
-DATA_DIR.mkdir(
-    exist_ok=True,
+DATA_DIRECTORY.mkdir(
+    exist_ok=True
 )
 
-EPISODES_FILE = DATA_DIR / "episodes.json"
+EPISODES_FILE = DATA_DIRECTORY / "episodes.json"
 
-
-def read_json():
+def read_json() -> list:
     if not EPISODES_FILE.exists():
         return []
-
     return json.loads(
         EPISODES_FILE.read_text(
             encoding="utf-8"
         )
     )
 
-
 def write_json(
-    data,
-):
+    data: list,
+) -> None:
     EPISODES_FILE.write_text(
         json.dumps(
             data,
