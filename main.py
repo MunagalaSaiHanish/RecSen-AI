@@ -1,5 +1,9 @@
 from app.agents.plan_executor import execute_plan
+
+from app.memory.episodic_memory import create_episode
+
 from app.agents.planner import create_investigation_plan
+from app.memory.storage import save_episode
 
 
 def main():
@@ -75,6 +79,15 @@ immediately after version 2.4.1 was deployed.
         print(
         f"  Content: {entry.content}"
     )
+
+    episode = create_episode(
+    incident=incident,
+    execution_state=execution_state,
+    )
+
+    save_episode(episode)
+
+print("\nEpisode saved successfully.")    
 
 
 if __name__ == "__main__":

@@ -1,8 +1,8 @@
 from enum import Enum
 from typing import Any
-
+from datetime import datetime
 from pydantic import BaseModel, Field
-
+import uuid
 
 class AgentAction(str, Enum):
     CHECK_LOGS = "CHECK_LOGS"
@@ -68,6 +68,42 @@ class WorkingMemory(BaseModel):
         default_factory=list
     )
 
+class EpisodeMetadata(BaseModel):
+    episode_id: str
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow
+    )
+    version: str = "1.0"
+
+
+class InvestigationRecord(BaseModel):
+    incident: str
+    goal: str
+    status: AgentStatus
+    replans: int
+    plan: InvestigationPlan
+    completed_steps: list[StepExecution]
+
+
+class EvidenceSnapshot(BaseModel):
+    working_memory: WorkingMemory
+
+
+class InvestigationOutcome(BaseModel):
+    root_cause: str | None = None
+    resolution: str | None = None
+    confidence: float | None = None
+    lessons_learned: list[str] = Field(
+        default_factory=list
+    )
+
+
+class Episode(BaseModel):
+    metadata: EpisodeMetadata
+    investigation: InvestigationRecord
+    evidence: EvidenceSnapshot
+    outcome: InvestigationOutcome
+
 class PlanExecutionState(BaseModel):
     plan: InvestigationPlan
 
@@ -78,10 +114,7 @@ class PlanExecutionState(BaseModel):
     working_memory: WorkingMemory = Field(
         default_factory=WorkingMemory
     )
-
     status: AgentStatus = AgentStatus.PLANNING
-
     current_step_index: int = 0
-
     replan_count: int = 0
 
