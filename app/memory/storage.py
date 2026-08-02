@@ -26,5 +26,5 @@ def write_json(
             data,
             indent=4,
         ),
-        encoding="utf-8",
+        encoding="utf-8",  
     )
