@@ -1,30 +1,30 @@
 [
     {
         "metadata": {
-            "episode_id": "42c12822-1538-47a3-b10f-10ba582dd9f8",
-            "created_at": "2026-08-04T06:12:11.178732",
+            "episode_id": "17735e18-4472-43f8-bfd4-665398b74ac3",
+            "created_at": "2026-08-04T06:44:38.524359",
             "version": "1.0"
         },
         "investigation": {
             "incident": "\nPayment API started returning HTTP 500 errors\nimmediately after version 2.4.1 was deployed.\n",
-            "goal": "Determine root cause of HTTP 500 errors in payment-api version 2.4.1 deployment",
+            "goal": "Determine root cause of HTTP 500 errors in payment-api following version 2.4.1 deployment",
             "plan": {
-                "goal": "Determine root cause of HTTP 500 errors in payment-api version 2.4.1 deployment",
+                "goal": "Determine root cause of HTTP 500 errors in payment-api following version 2.4.1 deployment",
                 "steps": [
                     {
                         "step_number": 1,
-                        "description": "Use check_deployments to verify deployment details of version 2.4.1",
-                        "expected_outcome": "Confirm deployment timestamp, configuration changes, and deployment status for version 2.4.1"
+                        "description": "Check deployment details for payment-api version 2.4.1",
+                        "expected_outcome": "Confirm deployment timing, configuration changes, and deployment status to correlate with error onset"
                     },
                     {
                         "step_number": 2,
-                        "description": "Use query_logs to retrieve error logs from payment-api immediately after the 2.4.1 deployment",
+                        "description": "Query application error logs for payment-api since version 2.4.1 deployment",
                         "expected_outcome": "Identify specific error messages, stack traces, and failure patterns causing HTTP 500 responses"
                     },
                     {
                         "step_number": 3,
-                        "description": "Use query_metrics to analyze payment-api runtime metrics before and after version 2.4.1 deployment",
-                        "expected_outcome": "Detect anomalies in error rates, response times, resource utilization, or dependencies that correlate with the deployment"
+                        "description": "Query runtime metrics for payment-api around deployment time",
+                        "expected_outcome": "Reveal performance anomalies such as memory leaks, CPU spikes, increased latency, or resource exhaustion that may cause failures"
                     }
                 ]
             },
@@ -32,8 +32,8 @@
                 {
                     "step": {
                         "step_number": 1,
-                        "description": "Use check_deployments to verify deployment details of version 2.4.1",
-                        "expected_outcome": "Confirm deployment timestamp, configuration changes, and deployment status for version 2.4.1"
+                        "description": "Check deployment details for payment-api version 2.4.1",
+                        "expected_outcome": "Confirm deployment timing, configuration changes, and deployment status to correlate with error onset"
                     },
                     "tool_name": "check_deployments",
                     "observation": {
@@ -52,7 +52,7 @@
                 {
                     "step": {
                         "step_number": 2,
-                        "description": "Use query_logs to retrieve error logs from payment-api immediately after the 2.4.1 deployment",
+                        "description": "Query application error logs for payment-api since version 2.4.1 deployment",
                         "expected_outcome": "Identify specific error messages, stack traces, and failure patterns causing HTTP 500 responses"
                     },
                     "tool_name": "query_logs",
@@ -74,8 +74,8 @@
                 {
                     "step": {
                         "step_number": 3,
-                        "description": "Use query_metrics to analyze payment-api runtime metrics before and after version 2.4.1 deployment",
-                        "expected_outcome": "Detect anomalies in error rates, response times, resource utilization, or dependencies that correlate with the deployment"
+                        "description": "Query runtime metrics for payment-api around deployment time",
+                        "expected_outcome": "Reveal performance anomalies such as memory leaks, CPU spikes, increased latency, or resource exhaustion that may cause failures"
                     },
                     "tool_name": "query_metrics",
                     "observation": {
