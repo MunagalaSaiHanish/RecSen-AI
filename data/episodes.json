@@ -1,1 +1,154 @@
-[]
+[
+    {
+        "metadata": {
+            "episode_id": "faa2c1e3-33b3-4162-a4a9-773defe56977",
+            "created_at": "2026-08-04T09:34:05.573165",
+            "version": "1.0"
+        },
+        "investigation": {
+            "incident": "\nPayment API started returning HTTP 500 errors\nimmediately after version 2.4.1 was deployed.\n",
+            "goal": "Determine the root cause of HTTP 500 errors in payment-api following version 2.4.1 deployment",
+            "plan": {
+                "goal": "Determine the root cause of HTTP 500 errors in payment-api following version 2.4.1 deployment",
+                "steps": [
+                    {
+                        "step_number": 1,
+                        "description": "Query application error logs for payment-api to identify specific error messages and stack traces",
+                        "expected_outcome": "Reveal the exact error types, exception messages, and code paths causing the 500 errors"
+                    },
+                    {
+                        "step_number": 2,
+                        "description": "Query runtime metrics for payment-api to identify anomalies in resource usage, response times, and error rates",
+                        "expected_outcome": "Show correlation between deployment timing and metrics changes, identify resource exhaustion or performance degradation"
+                    },
+                    {
+                        "step_number": 3,
+                        "description": "Check deployment information for payment-api version 2.4.1 to review deployment timing, configuration changes, and deployment status",
+                        "expected_outcome": "Confirm deployment details, timing correlation with errors, and identify any configuration or dependency changes introduced in version 2.4.1"
+                    }
+                ]
+            },
+            "completed_steps": [
+                {
+                    "step": {
+                        "step_number": 1,
+                        "description": "Query application error logs for payment-api to identify specific error messages and stack traces",
+                        "expected_outcome": "Reveal the exact error types, exception messages, and code paths causing the 500 errors"
+                    },
+                    "tool_name": "query_logs",
+                    "observation": {
+                        "success": true,
+                        "tool_name": "query_logs",
+                        "data": {
+                            "service": "payment-api",
+                            "logs": [
+                                "ERROR Database connection timeout",
+                                "ERROR Connection pool exhausted",
+                                "ERROR Request failed with status 500"
+                            ]
+                        },
+                        "error": null
+                    },
+                    "success": true
+                },
+                {
+                    "step": {
+                        "step_number": 2,
+                        "description": "Query runtime metrics for payment-api to identify anomalies in resource usage, response times, and error rates",
+                        "expected_outcome": "Show correlation between deployment timing and metrics changes, identify resource exhaustion or performance degradation"
+                    },
+                    "tool_name": "query_metrics",
+                    "observation": {
+                        "success": true,
+                        "tool_name": "query_metrics",
+                        "data": {
+                            "service": "payment-api",
+                            "cpu_usage": 91,
+                            "memory_usage": 72,
+                            "error_rate": 17
+                        },
+                        "error": null
+                    },
+                    "success": true
+                },
+                {
+                    "step": {
+                        "step_number": 3,
+                        "description": "Check deployment information for payment-api version 2.4.1 to review deployment timing, configuration changes, and deployment status",
+                        "expected_outcome": "Confirm deployment details, timing correlation with errors, and identify any configuration or dependency changes introduced in version 2.4.1"
+                    },
+                    "tool_name": "check_deployments",
+                    "observation": {
+                        "success": true,
+                        "tool_name": "check_deployments",
+                        "data": {
+                            "service": "payment-api",
+                            "version": "2.4.1",
+                            "status": "deployed",
+                            "minutes_ago": 15
+                        },
+                        "error": null
+                    },
+                    "success": true
+                }
+            ],
+            "status": "completed",
+            "replans": 0
+        },
+        "evidence": {
+            "working_memory": {
+                "entries": [
+                    {
+                        "source": "query_logs",
+                        "content": {
+                            "success": true,
+                            "tool_name": "query_logs",
+                            "data": {
+                                "service": "payment-api",
+                                "logs": [
+                                    "ERROR Database connection timeout",
+                                    "ERROR Connection pool exhausted",
+                                    "ERROR Request failed with status 500"
+                                ]
+                            },
+                            "error": null
+                        }
+                    },
+                    {
+                        "source": "query_metrics",
+                        "content": {
+                            "success": true,
+                            "tool_name": "query_metrics",
+                            "data": {
+                                "service": "payment-api",
+                                "cpu_usage": 91,
+                                "memory_usage": 72,
+                                "error_rate": 17
+                            },
+                            "error": null
+                        }
+                    },
+                    {
+                        "source": "check_deployments",
+                        "content": {
+                            "success": true,
+                            "tool_name": "check_deployments",
+                            "data": {
+                                "service": "payment-api",
+                                "version": "2.4.1",
+                                "status": "deployed",
+                                "minutes_ago": 15
+                            },
+                            "error": null
+                        }
+                    }
+                ]
+            }
+        },
+        "outcome": {
+            "root_cause": null,
+            "resolution": null,
+            "confidence": null
+        }
+    }
+]
