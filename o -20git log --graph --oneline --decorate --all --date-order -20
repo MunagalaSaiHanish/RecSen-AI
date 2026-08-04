@@ -1,0 +1,79 @@
+[33mcommit 55109032d76d82c601c168b72e93267904edd4f9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+AuthorDate: 2026-07-28 12:00:00 +0530
+Commit:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+CommitDate: 2026-07-28 12:00:00 +0530
+
+    docs: update on July 28
+
+[33mcommit 74ed9086c79c38b33b5db8c09733edfcdcb67815[m
+Author:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+AuthorDate: 2026-07-21 12:00:00 +0530
+Commit:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+CommitDate: 2026-07-21 12:00:00 +0530
+
+    ES updated
+
+[33mcommit fb1345e88b5a740038db8db60a53d68a07b523b5[m
+Author:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+AuthorDate: 2026-08-03 12:00:00 +0530
+Commit:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+CommitDate: 2026-08-03 12:00:00 +0530
+
+    Comment - embed model all miniLM L6 V2 used
+
+[33mcommit 8ea750892daa302ca3e6dd113a163a32fd5a123e[m
+Author:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+AuthorDate: 2026-08-02 12:00:00 +0530
+Commit:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+CommitDate: 2026-08-02 12:00:00 +0530
+
+    Storage bug resolved - indent issue
+
+[33mcommit b7f7582d79c448baaafdfc3670b33a5648c9e82d[m
+Author:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+AuthorDate: 2026-07-31 15:06:33 +0530
+Commit:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+CommitDate: 2026-07-31 15:06:33 +0530
+
+    feat(memory): implement production episodic memory pipeline
+
+[33mcommit e96466832e1b3c5212d5228afe86eef07322d6a2[m
+Author:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+AuthorDate: 2026-07-31 14:51:27 +0530
+Commit:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+CommitDate: 2026-07-31 14:51:27 +0530
+
+    Update
+
+[33mcommit 2756b8574f1c5fc6a3f2fa1daceb576f62b3e676[m
+Author:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+AuthorDate: 2026-07-31 14:28:33 +0530
+Commit:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+CommitDate: 2026-07-31 14:28:33 +0530
+
+    feat: implement episodic memory architecture
+
+[33mcommit 3f2942a49c6c0ae639c0e381e1424ad05d83821c[m
+Author:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+AuthorDate: 2026-07-31 12:47:29 +0530
+Commit:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+CommitDate: 2026-07-31 12:47:29 +0530
+
+    Updated the arch of memory
+
+[33mcommit bbbaee519eff119c863140dffe00f1ab9351ed91[m
+Author:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+AuthorDate: 2026-07-30 12:34:12 +0530
+Commit:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+CommitDate: 2026-07-30 12:34:12 +0530
+
+    Isuues in excecution_state resolved
+
+[33mcommit 0a674cfd20e75efc69c8e5dc8618a20216ba141c[m
+Author:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+AuthorDate: 2026-07-29 15:41:22 +0530
+Commit:     MUNAGALA SAI HANISH <examsjntu@gmail.com>
+CommitDate: 2026-07-29 15:41:22 +0530
+
+    feat: add state-machine orchestration and dynamic agent control
