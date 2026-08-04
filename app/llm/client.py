@@ -136,7 +136,7 @@ def generate_investigation_plan(
     incident: str,
     service: str,
     available_tools: list[dict],
-    
+    memory_context: str = "",
 ) -> InvestigationPlan:
     tools_context = json.dumps(
     available_tools,
@@ -165,7 +165,9 @@ def generate_investigation_plan(
     "role": "user",
     "content": (
         f"Incident:\n{incident}\n\n"
-        f"Service: {service}\n\n"
+f"Service: {service}\n\n"
+f"Relevant Previous Investigations:\n"
+f"{memory_context}\n\n"
         f"Available tools:\n{tools_context}\n\n"
         "Return JSON with this structure:\n"
         "{\n"
