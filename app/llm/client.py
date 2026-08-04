@@ -136,12 +136,23 @@ def generate_investigation_plan(
     incident: str,
     service: str,
     available_tools: list[dict],
-    memory_context: str = "",
+    memory_context: list[str] | None = None,
 ) -> InvestigationPlan:
     tools_context = json.dumps(
     available_tools,
     indent=2,
 )
+    memory_text = ""
+
+    if memory_context:
+        memory_text = (
+        "Relevant Previous Investigations:\n"
+        + "\n".join(
+            f"- {memory}"
+            for memory in memory_context
+        )
+        + "\n\n"
+    )
     response = client.chat.completions.create(
         model=settings.llm_model,
         messages=[
@@ -166,9 +177,8 @@ def generate_investigation_plan(
     "content": (
         f"Incident:\n{incident}\n\n"
 f"Service: {service}\n\n"
-f"Relevant Previous Investigations:\n"
-f"{memory_context}\n\n"
-        f"Available tools:\n{tools_context}\n\n"
+f"{memory_text}"
+f"Available tools:\n{tools_context}\n\n"
         "Return JSON with this structure:\n"
         "{\n"
         '  "goal": "investigation goal",\n'

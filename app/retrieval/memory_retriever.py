@@ -1,14 +1,23 @@
 from app.memory.repository import EpisodeRepository
 
+
 class MemoryRetriever:
     def __init__(self):
         self.repository = EpisodeRepository()
 
-    def retrieve(self, incident: str, limit: int = 3) -> list:
+    def retrieve(
+        self,
+        incident: str,
+        limit: int = 3,
+    ) -> list[str]:
         episodes = self.repository.load_all()
-        matches = []
         incident = incident.lower()
+        memories = []
         for episode in episodes:
             if incident in episode.investigation.incident.lower():
-                matches.append(episode)
-        return matches[:limit]
+                memories.append(
+                    f"Incident: {episode.investigation.incident}\n"
+                    f"Root Cause: {episode.outcome.root_cause}\n"
+                    f"Resolution: {episode.outcome.resolution}"
+                )
+        return memories[:limit]

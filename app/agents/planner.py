@@ -3,10 +3,16 @@ from app.schemas.agent import InvestigationPlan
 from app.tools.registry import TOOL_REGISTRY
 from app.retrieval.memory_retriever import MemoryRetriever 
 
+
 def create_investigation_plan(
     incident: str,
     service: str,
 ) -> InvestigationPlan:
+    retriever = MemoryRetriever()
+
+    memory_context = retriever.retrieve(
+    incident=incident,
+)
     available_tools = [
         {
             "name": tool.name,
